@@ -25,8 +25,6 @@ public class EntryUserService {
     BeanUtils.copyProperties(inputDTO, insertObj);
     // 入库
     entryUserMapper.insertSelective(insertObj);
-    //查询出刚刚入库的记录
-    EntryUser newestRow = entryUserMapper.selectByPrimaryKey(insertObj.getId());
-    return newestRow;
+    return insertObj;
   }
 }
