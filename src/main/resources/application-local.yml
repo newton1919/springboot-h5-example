@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    username: root
+    password: yourpassword
+    url: jdbc:mysql://localhost:3306/h5_example?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    druid:
+      test-on-borrow: true
+      test-on-return: true
+      test-while-idle: true
+      validation-query: 'select 1 from dual'
+      max-active: 80

@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    username: root
+    password: yourpassword
+    url: jdbc:mysql://localhost:3306/h5_example?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    druid:
+      test-on-borrow: true
+      test-on-return: true
+      test-while-idle: true
+      validation-query: 'select 1 from dual'
+      max-active: 80
+
+#logback日志配置 by yxy
+logging:
+  level:
+    root: info
+    com.yxy: debug
+    org.springframework.jdbc.datasource.DataSourceTransactionManager: debug
+    org.mybatis.spring.SqlSessionUtils: debug
+  file:
+    #name: ${spring.application.name}.log #该版本spring boot不支持该name属性
+    max-size: 1000MB
+    max-history: 5
+  ##设置pattern.console=空 可以关闭console输出
+  pattern:
+    console: ''
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}[%line] - %msg%n'
+
+  #path是个文件夹,可以配置相对路径也可以是绝对路径
+  #如果是相对路径,相对路径的根 是 用户当前目录!!!
+  path: /var/log/${spring.application.name}-log

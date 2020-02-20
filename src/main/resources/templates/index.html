@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>h5 example</title>
+    <script src="/static/vue-2.6.11.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="/static/element-ui-2.7.2/index.css">
+    <!-- 引入组件库 -->
+    <script src="/static/element-ui-2.7.2/index.js"></script>
+    <!-- 引入axios -->
+    <script src="/static/axios.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <el-container>
+        <el-header>企业防疫统计表</el-header>
+        <el-main>
+            <el-form ref="form" :model="form" label-width="80px" size="medium">
+                <el-form-item label="姓名">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="性别">
+                    <el-select v-model="form.gender" placeholder="请选择性别">
+                        <el-option label="男" value="male"></el-option>
+                        <el-option label="女" value="female"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="年龄">
+                    <el-input v-model="form.age"></el-input>
+                </el-form-item>
+                <el-form-item label="自我介绍">
+                    <el-input type="textarea" v-model="form.description"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="onSubmit">立即创建</el-button>
+                    <el-button>取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-main>
+    </el-container>
+</div>
+</body>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello wanghuichao!',
+            form: {
+                name: '',
+                gender: '',
+                age: '',
+                description: ''
+            }
+        },
+        methods: {
+            onSubmit() {
+                axios.post('/user/add', this.$data.form)
+                .then(function (response) {
+                    var resp = response.data;
+                    if (resp.status !== 200) { //请求失败
+                        app.$message({
+                            message: resp.message || 'Error',
+                            type: 'error',
+                            duration: 5 * 1000
+                        })
+                    } else { //请求成功
+                        app.$message({
+                            message: resp.message || 'Success',
+                            type: 'success',
+                            duration: 1 * 1000,
+                            onClose: function () {
+                                location.reload();//成功则刷新页面以便增加另外的人员
+                            }
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    app.$message({
+                        message: error || 'Error',
+                        type: 'error',
+                        duration: 5 * 1000
+                    })
+                });
+            }
+        }
+    })
+</script>
+<style>
+    .el-header, .el-footer {
+        background-color: #B3C0D1;
+        color: #333;
+        text-align: center;
+        line-height: 60px;
+    }
+
+    .el-main {
+    }
+</style>
+</html>
